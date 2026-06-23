@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+<title>Home Design Influencers Directory</title>
+<style>
+:root {
+  --bg: #0f0f12;
+  --card: #1a1a22;
+  --card-hover: #232330;
+  --accent: #e8714c;
+  --accent-soft: rgba(232,113,76,0.15);
+  --text: #f0f0f5;
+  --text-dim: #8a8a9a;
+  --border: #2a2a35;
+  --tier1: #f5a623;
+  --tier2: #4fc3f7;
+  --tier3: #81c784;
+  --tier4: #ce93d8;
+  --radius: 14px;
+}
+* { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+  padding-bottom: 40px;
+  -webkit-font-smoothing: antialiased;
+}
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15,15,18,0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 14px 10px;
+}
+.header h1 {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  margin-bottom: 2px;
+}
+.header .subtitle {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 10px;
+}
+.search-wrap {
+  position: relative;
+  margin-bottom: 10px;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 12px; top: 50%;
+  transform: translateY(-50%);
+  width: 16px; height: 16px;
+  color: var(--text-dim);
+  pointer-events: none;
+}
+#search {
+  width: 100%;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 10px 12px 10px 36px;
+  font-size: 15px;
+  outline: none;
+  -webkit-appearance: none;
+}
+#search:focus { border-color: var(--accent); }
+#search::placeholder { color: var(--text-dim); }
+.filters {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.filters::-webkit-scrollbar { display:none; }
+.chip {
+  flex-shrink: 0;
+  padding: 6px 13px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text-dim);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.chip.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+.chip:active { transform: scale(0.95); }
+.toggles {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  user-select: none;
+}
+.toggle input {
+  width: 16px; height: 16px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+.count-bar {
+  padding: 8px 14px;
+  font-size: 12px;
+  color: var(--text-dim);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 0 10px;
+}
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 13px 14px;
+  transition: background 0.15s, border-color 0.15s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.card:active {
+  background: var(--card-hover);
+  border-color: var(--accent);
+}
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.handle {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent);
+  word-break: break-all;
+}
+.tier-badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 6px;
+  white-space: nowrap;
+  letter-spacing: 0.3px;
+}
+.tier-badge.t1 { background: rgba(245,166,35,0.18); color: var(--tier1); }
+.tier-badge.t2 { background: rgba(79,195,247,0.18); color: var(--tier2); }
+.tier-badge.t3 { background: rgba(129,199,132,0.18); color: var(--tier3); }
+.tier-badge.t4 { background: rgba(206,147,216,0.18); color: var(--tier4); }
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-bottom: 5px;
+}
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+.sunbelt-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-soft);
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 4px;
+}
+.note {
+  font-size: 12.5px;
+  color: #b0b0c0;
+  line-height: 1.45;
+  margin-top: 2px;
+}
+.niche-tag {
+  display: inline-block;
+  font-size: 11px;
+  color: var(--text-dim);
+  background: rgba(255,255,255,0.05);
+  padding: 2px 7px;
+  border-radius: 5px;
+  margin-top: 5px;
+}
+.empty {
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--text-dim);
+  font-size: 14px;
+}
+.tier-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-dim);
+  padding: 14px 14px 4px;
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>&#127968; Home Design Influencers</h1>
+  <div class="subtitle">Tap any handle to open Instagram &#183; <span id="total-count"></span> profiles</div>
+  <div class="search-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="search" id="search" placeholder="Search handle, location, niche&#8230;" autocomplete="off">
+  </div>
+  <div class="filters" id="filters">
+    <div class="chip active" data-tier="all">All</div>
+    <div class="chip" data-tier="1. MEGA (1M+)">&#11088; Mega (1M+)</div>
+    <div class="chip" data-tier="2. LARGE (300K-1M)">&#128309; Large (300K&#8211;1M)</div>
+    <div class="chip" data-tier="3. MID (100K-300K)">&#128994; Mid (100K&#8211;300K)</div>
+    <div class="chip" data-tier="4. RISING (<100K)">&#128995; Rising (&lt;100K)</div>
+  </div>
+  <div class="toggles">
+    <label class="toggle"><input type="checkbox" id="sunbelt-only"> &#127774; Sunbelt only</label>
+    <label class="toggle"><input type="checkbox" id="sort-alpha"> A&#8594;Z sort</label>
+  </div>
+</div>
+
+<div class="count-bar">
+  <span id="result-count"></span>
+  <span style="opacity:0.5">Tap card &#8594; Instagram</span>
+</div>
+
+<div class="cards" id="cards"></div>
+
+<script type="application/json" id="influencer-data">[{"tier": "1. MEGA (1M+)", "handle": "@kristy.sarah", "url": "https://www.instagram.com/kristy.sarah/", "followers": "10M", "location": "US", "sunbelt": "N", "niche": "reno/DIY", "contact": "contactkristy@gersh.com", "note": "Viral fixer-upper builds; family/lifestyle crossover", "verified": "10M"}, {"tier": "1. MEGA (1M+)", "handle": "@inspire_me_home_decor", "url": "https://www.instagram.com/inspire_me_home_decor/", "followers": "6.4M", "location": "US", "sunbelt": "N", "niche": "decor", "contact": "", "note": "Farah Merhi; glam-meets-affordable decor empire", "verified": "8M"}, {"tier": "1. MEGA (1M+)", "handle": "@farahjmerhi", "url": "https://www.instagram.com/farahjmerhi/", "followers": "6M", "location": "US", "sunbelt": "N", "niche": "decor", "contact": "Farah.merhi@inspiremehomedecor.com", "note": "Inspire Me founder's personal acct; luxe-affordable, Amazon finds", "verified": "7M"}, {"tier": "1. MEGA (1M+)", "handle": "@studiomcgee", "url": "https://www.instagram.com/studiomcgee/", "followers": "4M", "location": "Utah", "sunbelt": "N", "niche": "design", "contact": "PR via studio-mcgee.com", "note": "Syd & Shea McGee; Target line, Netflix Dream Home Makeover", "verified": "4M"}, {"tier": "1. MEGA (1M+)", "handle": "@anna_louisa_at_home", "url": "https://www.instagram.com/anna_louisa_at_home/", "followers": "4M", "location": "US/UK", "sunbelt": "N", "niche": "decor", "contact": "anna.louisa@outreachtalentgroup.com", "note": "Room resets + budget styling (verify US base)", "verified": "4M"}, {"tier": "1. MEGA (1M+)", "handle": "@the_real_houses_of_ig", "url": "https://www.instagram.com/the_real_houses_of_ig/", "followers": "2.5M", "location": "New Jersey", "sunbelt": "N", "niche": "decor", "contact": "", "note": "Curated luxury real estate + interiors feed", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@vekalife", "url": "https://www.instagram.com/vekalife/", "followers": "2.2M", "location": "Miami, FL", "sunbelt": "Y", "niche": "decor/transform", "contact": "", "note": "Veruska Gomez; home organization + transformation, huge reach", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@frills_and_drills", "url": "https://www.instagram.com/frills_and_drills/", "followers": "~2M", "location": "Lithia / Tampa, FL", "sunbelt": "Y", "niche": "DIY/reno", "contact": "frillsanddrills.com", "note": "Lindsay Dean; SAHM DIYer, accent walls/built-ins/IKEA hacks. Strong archetype", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@christinahaack", "url": "https://www.instagram.com/christinahaack/", "followers": "~2M", "location": "Tennessee / CA", "sunbelt": "Y", "niche": "flip", "contact": "", "note": "HGTV Flip or Flop / The Flip Off; mainstream-famous flipper", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@chrislovesjulia", "url": "https://www.instagram.com/chrislovesjulia/", "followers": "1.7M", "location": "Raleigh, NC", "sunbelt": "Y", "niche": "reno/DIY", "contact": "chrislovesjulia.com", "note": "Chris & Julia Marcum; warm-modern whole-home renos. (Relocated to Raleigh)", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@galeyalix", "url": "https://www.instagram.com/galeyalix/", "followers": "1.6M", "location": "Fort Lauderdale, FL", "sunbelt": "Y", "niche": "reno/design", "contact": "maria@galeyalixdesign.com", "note": "THE archetype; 72-hr transformations, Wall St day job, HGTV", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@thejungalow", "url": "https://www.instagram.com/thejungalow/", "followers": "1.6M", "location": "Los Angeles, CA", "sunbelt": "N", "niche": "decor", "contact": "", "note": "Justina Blakeney; colorful boho, accessible DIY decor", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@amberinteriors", "url": "https://www.instagram.com/amberinteriors/", "followers": "1.4M", "location": "California", "sunbelt": "N", "niche": "design", "contact": "PR via amberinteriordesign.com", "note": "Amber Lewis; CA-eclectic, Shoppe retail line", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@beckiowens", "url": "https://www.instagram.com/beckiowens/", "followers": "1.4M", "location": "Southern California", "sunbelt": "N", "niche": "design", "contact": "", "note": "Light-filled modern, huge before/after archive", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@angelarosehome", "url": "https://www.instagram.com/angelarosehome/", "followers": "1.3M", "location": "US", "sunbelt": "N", "niche": "DIY/reno", "contact": "", "note": "Budget-friendly DIY renovations and builds", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@lovefordesigns", "url": "https://www.instagram.com/lovefordesigns/", "followers": "1.3M", "location": "North Carolina", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Luxury-glam art and decor styling", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@ourfauxfarmhouse", "url": "https://www.instagram.com/ourfauxfarmhouse/", "followers": "1.2M", "location": "Austin, TX", "sunbelt": "Y", "niche": "DIY/decor", "contact": "", "note": "DIY farmhouse style, affordable makeovers", "verified": "1M"}, {"tier": "1. MEGA (1M+)", "handle": "@want.zamora", "url": "https://www.instagram.com/want.zamora/", "followers": "1.2M", "location": "US", "sunbelt": "N", "niche": "design/decor", "contact": "mzamora.zm@gmail.com", "note": "Marco Zamora; interior design + decor content", "verified": "2M"}, {"tier": "1. MEGA (1M+)", "handle": "@mytexashouse", "url": "https://www.instagram.com/mytexashouse/", "followers": "1M+", "location": "Prosper (DFW), TX", "sunbelt": "Y", "niche": "decor/DIY", "contact": "", "note": "Erin Vogelpohl; budget farmhouse, Walmart line. Best DFW archetype fit", "verified": "1M"}, {"tier": "1. MEGA (1M+)", "handle": "@popsofcolorlifestyle", "url": "https://www.instagram.com/popsofcolorlifestyle/", "followers": "1M", "location": "Houston, TX", "sunbelt": "Y", "niche": "decor/design", "contact": "teampopsofcolor@gersh.com", "note": "Kerry Harris; colorful home + lifestyle", "verified": "1M"}, {"tier": "1. MEGA (1M+)", "handle": "@therealtarekelmoussa", "url": "https://www.instagram.com/therealtarekelmoussa/", "followers": "~1M", "location": "Orange County, CA", "sunbelt": "N", "niche": "flip", "contact": "eda@edakalkay.com", "note": "HGTV Flip or Flop / Flipping 101; teaches beginners", "verified": "1M"}, {"tier": "1. MEGA (1M+)", "handle": "@theheatherraeelmoussa", "url": "https://www.instagram.com/theheatherraeelmoussa/", "followers": "~1M", "location": "Orange County, CA", "sunbelt": "N", "niche": "flip/investor", "contact": "Eda@EdaKalkay.com", "note": "The Flip Off; RE + flip, relatable family angle", "verified": "3M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@em_henderson", "url": "https://www.instagram.com/em_henderson/", "followers": "950K", "location": "Oregon / LA", "sunbelt": "N", "niche": "design", "contact": "", "note": "Emily Henderson; vintage-inspired accessible design, author", "verified": "1M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@grillodesigns", "url": "https://www.instagram.com/grillodesigns/", "followers": "930K", "location": "UK", "sunbelt": "N", "niche": "DIY/reno", "contact": "info@grillo-designs.com", "note": "Medina Grillo; rental-friendly DIY (flag: UK-based)", "verified": "1M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@deirdres_design", "url": "https://www.instagram.com/deirdres_design/", "followers": "856K", "location": "Charlotte, NC", "sunbelt": "Y", "niche": "design/decor", "contact": "", "note": "Affordable elegant interiors", "verified": "1M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@arrowsandbow", "url": "https://www.instagram.com/arrowsandbow/", "followers": "813K", "location": "US", "sunbelt": "N", "niche": "reno/DIY", "contact": "", "note": "Ashley Petrone; relaxed full-home + RV renos, budget angle", "verified": "835K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@mrkate", "url": "https://www.instagram.com/mrkate/", "followers": "712K", "location": "Los Angeles, CA", "sunbelt": "N", "niche": "DIY/reno", "contact": "", "note": "Kate Albrecht; budget room makeovers, Creative Weirdo DIY", "verified": "687K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@shanty2chic", "url": "https://www.instagram.com/shanty2chic/", "followers": "661K", "location": "Texas", "sunbelt": "Y", "niche": "DIY", "contact": "", "note": "Sister duo; budget DIY furniture builds w/ free plans", "verified": "645K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@emyludesigns", "url": "https://www.instagram.com/emyludesigns/", "followers": "640K", "location": "US", "sunbelt": "N", "niche": "DIY/decor", "contact": "", "note": "Emy Lou; home office DIY, budget projects", "verified": "1M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@homerenovisiondiy", "url": "https://www.instagram.com/homerenovisiondiy/", "followers": "600K", "location": "US", "sunbelt": "N", "niche": "DIY/reno", "contact": "info@homerenovisiondiy.com", "note": "Jeff Thorman; practical DIY reno tutorials, contractor-credible", "verified": "665K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@mina_starsiak_hawk", "url": "https://www.instagram.com/mina_starsiak_hawk/", "followers": "582K", "location": "Indianapolis, IN", "sunbelt": "N", "niche": "flip/reno", "contact": "Brian@emmllc.com", "note": "HGTV Good Bones; rehabs older homes, mom-next-door tone", "verified": "582K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@lizmariegalvan", "url": "https://www.instagram.com/lizmariegalvan/", "followers": "565K", "location": "Grand Rapids, MI", "sunbelt": "N", "niche": "decor/reno", "contact": "lizmarie@parkertalentmanagement.com", "note": "Cozy farmhouse/cottage, The Cottage restoration", "verified": "866K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@mallorynikolaushome", "url": "https://www.instagram.com/mallorynikolaushome/", "followers": "552K", "location": "US", "sunbelt": "N", "niche": "reno/DIY", "contact": "", "note": "Bold wallpaper/color transformations, relatable", "verified": "575K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@summerthompsonstyles", "url": "https://www.instagram.com/summerthompsonstyles/", "followers": "541K", "location": "US", "sunbelt": "N", "niche": "decor/lifestyle", "contact": "", "note": "Home decor + lifestyle styling", "verified": "827K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@lonefoxhome", "url": "https://www.instagram.com/lonefoxhome/", "followers": "500K", "location": "Los Angeles, CA", "sunbelt": "N", "niche": "DIY/reno", "contact": "lonefox@rangemp.com", "note": "Drew Scott; thrift flips + makeovers for renters", "verified": "2M"}, {"tier": "2. LARGE (300K-1M)", "handle": "@withinthegrove", "url": "https://www.instagram.com/withinthegrove/", "followers": "491K", "location": "Orlando, FL", "sunbelt": "Y", "niche": "DIY/reno", "contact": "withinthegrove.com", "note": "HGTV-featured; 90s home + 1941 beach cottage reno", "verified": "491K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@spetrichhome", "url": "https://www.instagram.com/spetrichhome/", "followers": "447K", "location": "US", "sunbelt": "N", "niche": "reno/DIY", "contact": "", "note": "Stephanie Petrich; cozy minimalist reno + styling", "verified": "571K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@styleitprettyhome", "url": "https://www.instagram.com/styleitprettyhome/", "followers": "432K", "location": "US", "sunbelt": "N", "niche": "reno/DIY", "contact": "", "note": "Zenia Olivares; high-impact decor, warm palettes", "verified": "428K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@ninamagonstudio", "url": "https://www.instagram.com/ninamagonstudio/", "followers": "401K", "location": "Houston, TX", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Nina Magon; contemporary luxury interior design", "verified": "398K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@cabellhouse", "url": "https://www.instagram.com/cabellhouse/", "followers": "386K", "location": "Houston, TX", "sunbelt": "Y", "niche": "reno/design", "contact": "ejcpromos@gmail.com", "note": "Evan Cabell; home renovation content", "verified": "650K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@luciamallea", "url": "https://www.instagram.com/luciamallea/", "followers": "380K", "location": "Miami, FL", "sunbelt": "Y", "niche": "DIY/decor", "contact": "Lucia.Mallea@gb-dm.com", "note": "Bilingual DIY crafts + seasonal decor, mom of three", "verified": "426K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@thejoyfuldecorator", "url": "https://www.instagram.com/thejoyfuldecorator/", "followers": "377K", "location": "Phoenix, AZ", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Jennifer Britton; approachable home decorating", "verified": "411K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@veliz_arquitecto", "url": "https://www.instagram.com/veliz_arquitecto/", "followers": "358K", "location": "Miami, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "jlvelizquintana@gmail.com", "note": "Architect + designer; viral concept-home content", "verified": "357K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@jordanmillerhome", "url": "https://www.instagram.com/jordanmillerhome/", "followers": "340K", "location": "Atlanta, GA", "sunbelt": "Y", "niche": "DIY/reno", "contact": "jordanmillerhome.com", "note": "DIYer renovating 80s colonial; close Galey-style archetype", "verified": "343K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@houseliftdesign", "url": "https://www.instagram.com/houseliftdesign/", "followers": "334K", "location": "Marietta (Atlanta), GA", "sunbelt": "Y", "niche": "design/reno", "contact": "houseliftdesign.com", "note": "Atlanta firm w/ strong before/after reno reels", "verified": "334K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@myaustinhaven", "url": "https://www.instagram.com/myaustinhaven/", "followers": "314K", "location": "Austin, TX", "sunbelt": "Y", "niche": "decor/design", "contact": "", "note": "Jen; My Austin Haven home styling", "verified": "329K"}, {"tier": "2. LARGE (300K-1M)", "handle": "@dawson.diy", "url": "https://www.instagram.com/dawson.diy/", "followers": "301K", "location": "Austin, TX", "sunbelt": "Y", "niche": "DIY/reno", "contact": "partnerships@dawsondiy.com", "note": "Dawson Hoppes; DIY home projects", "verified": "518K"}, {"tier": "3. MID (100K-300K)", "handle": "@honeyidressedthepug", "url": "https://www.instagram.com/honeyidressedthepug/", "followers": "296K", "location": "New York, NY", "sunbelt": "N", "niche": "rental/decor", "contact": "hello@maitrimody.com", "note": "NYC renter; paint + removable wallpaper transforms", "verified": "296K"}, {"tier": "3. MID (100K-300K)", "handle": "@xomyhome", "url": "https://www.instagram.com/xomyhome/", "followers": "295K", "location": "Tampa, FL", "sunbelt": "Y", "niche": "DIY/decor", "contact": "xomyhome.com", "note": "IKEA hacks/storage; IKEA + Apartment Therapy partner", "verified": "296K"}, {"tier": "3. MID (100K-300K)", "handle": "@kkolbyshae", "url": "https://www.instagram.com/kkolbyshae/", "followers": "265K", "location": "Houston, TX", "sunbelt": "Y", "niche": "decor/design", "contact": "", "note": "Kolby Shae; home + lifestyle", "verified": "261K"}, {"tier": "3. MID (100K-300K)", "handle": "@lonihaskellinteriors", "url": "https://www.instagram.com/lonihaskellinteriors/", "followers": "250K", "location": "Denver, CO", "sunbelt": "Y", "niche": "design/decor", "contact": "lonihaskell.com", "note": "All-things-home + budget finds; co-owns RE brokerage", "verified": "257K"}, {"tier": "3. MID (100K-300K)", "handle": "@southern_charm_cottage", "url": "https://www.instagram.com/southern_charm_cottage/", "followers": "210K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Cottage aesthetic, antiques, Southern decor", "verified": "210K"}, {"tier": "3. MID (100K-300K)", "handle": "@pennies_for_a_fortune", "url": "https://www.instagram.com/pennies_for_a_fortune/", "followers": "202K", "location": "Houston, TX", "sunbelt": "Y", "niche": "decor/DIY", "contact": "", "note": "Fariha Nasir; budget home design + DIY", "verified": "203K"}, {"tier": "3. MID (100K-300K)", "handle": "@sgardnerstyle", "url": "https://www.instagram.com/sgardnerstyle/", "followers": "202K", "location": "Sacramento, CA", "sunbelt": "Y", "niche": "decor/DIY", "contact": "sgstyleblog.com", "note": "Renovated 1,200sqft cottage; slow sustainable design. Best Sac archetype", "verified": "200K"}, {"tier": "3. MID (100K-300K)", "handle": "@beesnburlap", "url": "https://www.instagram.com/beesnburlap/", "followers": "199K", "location": "Orlando, FL", "sunbelt": "Y", "niche": "decor/DIY", "contact": "beesnburlap.com", "note": "Holli Rodrigues; farmhouse/eclectic budget DIY", "verified": "199K"}, {"tier": "3. MID (100K-300K)", "handle": "@carmeonhamilton", "url": "https://www.instagram.com/carmeonhamilton/", "followers": "188K", "location": "Memphis, TN", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "HGTV Reno My Rental host; rental-friendly transforms", "verified": "188K"}, {"tier": "3. MID (100K-300K)", "handle": "@sharpesouthernhome", "url": "https://www.instagram.com/sharpesouthernhome/", "followers": "188K", "location": "South Carolina", "sunbelt": "N", "niche": "DIY", "contact": "sharpesouthernhome.com", "note": "Teacher-to-SAHM; accent walls, tile, builds on budget", "verified": "193K"}, {"tier": "3. MID (100K-300K)", "handle": "@jenamroach", "url": "https://www.instagram.com/jenamroach/", "followers": "185K", "location": "San Antonio, TX", "sunbelt": "Y", "niche": "design/reno", "contact": "jenamroach@gmail.com", "note": "SA designer; interiors + renderings + kitchen DIY", "verified": "184K"}, {"tier": "3. MID (100K-300K)", "handle": "@david.quarlesiv", "url": "https://www.instagram.com/david.quarlesiv/", "followers": "185K", "location": "Memphis, TN", "sunbelt": "Y", "niche": "design/DIY", "contact": "davidquarlesiv.com", "note": "Self-taught multi-hyphenate; bold-color DIY tutorials", "verified": "186K"}, {"tier": "3. MID (100K-300K)", "handle": "@touchesofwood_lexi", "url": "https://www.instagram.com/touchesofwood_lexi/", "followers": "180K", "location": "Katy (Houston), TX", "sunbelt": "Y", "niche": "decor/DIY", "contact": "alexis@epicagencygroup.com", "note": "Alexis Gonzalez; decor + DIY + holiday, agency-repped", "verified": "180K"}, {"tier": "3. MID (100K-300K)", "handle": "@myarizonahome", "url": "https://www.instagram.com/myarizonahome/", "followers": "167K", "location": "Phoenix, AZ", "sunbelt": "Y", "niche": "decor/design", "contact": "", "note": "Nelly Irias; home styling tips + finds, offers design svcs", "verified": "167K"}, {"tier": "3. MID (100K-300K)", "handle": "@loveletters_home", "url": "https://www.instagram.com/loveletters_home/", "followers": "167K", "location": "Tennessee", "sunbelt": "Y", "niche": "DIY", "contact": "", "note": "Turn Pinterest into weekend DIY; affordable tutorials", "verified": "169K"}, {"tier": "3. MID (100K-300K)", "handle": "@itsaustinsherwood", "url": "https://www.instagram.com/itsaustinsherwood/", "followers": "159K", "location": "Austin, TX", "sunbelt": "Y", "niche": "DIY/reno", "contact": "Austin@LuxuryEstates.com", "note": "Austin Sherwood; DIY home content", "verified": "152K"}, {"tier": "3. MID (100K-300K)", "handle": "@styled_by_spence", "url": "https://www.instagram.com/styled_by_spence/", "followers": "157K", "location": "Tampa, FL", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Kristin Spence; home styling/decor", "verified": "169K"}, {"tier": "3. MID (100K-300K)", "handle": "@hammsmom_shayla", "url": "https://www.instagram.com/hammsmom_shayla/", "followers": "155K", "location": "Denver, CO", "sunbelt": "Y", "niche": "DIY/decor", "contact": "hammsmom@gmail.com", "note": "Shayla McCormick; DIY projects + home finds", "verified": "155K"}, {"tier": "3. MID (100K-300K)", "handle": "@thecurtishomes", "url": "https://www.instagram.com/thecurtishomes/", "followers": "152K", "location": "Houston, TX", "sunbelt": "Y", "niche": "reno/flip", "contact": "", "note": "Leon Curtis; home renovation/builds", "verified": "161K"}, {"tier": "3. MID (100K-300K)", "handle": "@lexiwestergard_design", "url": "https://www.instagram.com/lexiwestergard_design/", "followers": "152K", "location": "Phoenix/Scottsdale, AZ", "sunbelt": "Y", "niche": "design/reno", "contact": "studio@lexiwestergarddesign.com", "note": "Timeless luxury residential interiors", "verified": "153K"}, {"tier": "3. MID (100K-300K)", "handle": "@mikamakesmoves", "url": "https://www.instagram.com/mikamakesmoves/", "followers": "151K", "location": "Tampa, FL", "sunbelt": "Y", "niche": "reno", "contact": "dirt2designllc.com", "note": "HGTV 100 Day Dream Home host; design-build duo", "verified": "153K"}, {"tier": "3. MID (100K-300K)", "handle": "@houseofhipsters", "url": "https://www.instagram.com/houseofhipsters/", "followers": "~150-350K", "location": "Chicago, IL", "sunbelt": "N", "niche": "DIY/reno", "contact": "", "note": "Kyla Herbes; vintage-modern DIY renos", "verified": "?"}, {"tier": "3. MID (100K-300K)", "handle": "@imaniathome", "url": "https://www.instagram.com/imaniathome/", "followers": "147K", "location": "Washington, DC", "sunbelt": "N", "niche": "rental/DIY", "contact": "hello@imaniathome.com", "note": "Forever renter; renter-friendly DIYs in 850sqft studio", "verified": "150K"}, {"tier": "3. MID (100K-300K)", "handle": "@veradesignsvegas", "url": "https://www.instagram.com/veradesignsvegas/", "followers": "147K", "location": "Las Vegas, NV", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Vera Chamberlin; Maison Chamberlin luxury studio", "verified": "146K"}, {"tier": "3. MID (100K-300K)", "handle": "@oak.haus.collective", "url": "https://www.instagram.com/oak.haus.collective/", "followers": "146K", "location": "Wake Forest (Raleigh), NC", "sunbelt": "Y", "niche": "decor/DIY/design", "contact": "hello@oakhauscollective.com", "note": "Designer + mom; affordable transforms, fast-growing", "verified": "150K"}, {"tier": "3. MID (100K-300K)", "handle": "@mrsblinks", "url": "https://www.instagram.com/mrsblinks/", "followers": "146K", "location": "Tampa, FL", "sunbelt": "Y", "niche": "decor/DIY", "contact": "thegrayrubydiaries.com", "note": "Restoring a 117-yr-old Tampa farmhouse", "verified": "146K"}, {"tier": "3. MID (100K-300K)", "handle": "@emilymadehome", "url": "https://www.instagram.com/emilymadehome/", "followers": "144K", "location": "Atlanta, GA", "sunbelt": "Y", "niche": "DIY/reno", "contact": "emilymadehome.com", "note": "Architecture-degree DIYer; before/after reno content", "verified": "144K"}, {"tier": "3. MID (100K-300K)", "handle": "@roomfortuesday", "url": "https://www.instagram.com/roomfortuesday/", "followers": "141K", "location": "Salt Lake City, UT", "sunbelt": "N", "niche": "reno/design/DIY", "contact": "sarah@roomfortuesday.com", "note": "Budget renos w/ contractor husband; strong before/afters", "verified": "141K"}, {"tier": "3. MID (100K-300K)", "handle": "@hannah.is.home", "url": "https://www.instagram.com/hannah.is.home/", "followers": "128K", "location": "US", "sunbelt": "N", "niche": "DIY", "contact": "", "note": "Self-taught DIYer; approachable project content", "verified": "181K"}, {"tier": "3. MID (100K-300K)", "handle": "@ciaracera", "url": "https://www.instagram.com/ciaracera/", "followers": "124K", "location": "Austin, TX", "sunbelt": "Y", "niche": "decor/design", "contact": "ciaracera9@gmail.com", "note": "Ciara Cera; fast-growing home creator", "verified": "146K"}, {"tier": "3. MID (100K-300K)", "handle": "@eilynjimenez_", "url": "https://www.instagram.com/eilynjimenez_/", "followers": "120K", "location": "Miami, FL", "sunbelt": "Y", "niche": "design", "contact": "siredesign.com", "note": "Sire Design founder; Netflix Designing Miami + HGTV", "verified": "129K"}, {"tier": "3. MID (100K-300K)", "handle": "@frazierhomedesign", "url": "https://www.instagram.com/frazierhomedesign/", "followers": "115K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Bespoke home design, renderings + concepts", "verified": "116K"}, {"tier": "3. MID (100K-300K)", "handle": "@cottageonwynn", "url": "https://www.instagram.com/cottageonwynn/", "followers": "111K", "location": "US", "sunbelt": "N", "niche": "DIY", "contact": "", "note": "Cozy cottage seasonal DIY + decor", "verified": "114K"}, {"tier": "3. MID (100K-300K)", "handle": "@experimentingwithdecor", "url": "https://www.instagram.com/experimentingwithdecor/", "followers": "111K", "location": "San Antonio, TX", "sunbelt": "Y", "niche": "decor/DIY", "contact": "", "note": "Magdalena Mendez; budget decor reels", "verified": "111K"}, {"tier": "3. MID (100K-300K)", "handle": "@cozy_in_georgia", "url": "https://www.instagram.com/cozy_in_georgia/", "followers": "102K", "location": "Atlanta, GA", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Leslie Rodgers; cozy home decor", "verified": "118K"}, {"tier": "3. MID (100K-300K)", "handle": "@ellerslieinteriors", "url": "https://www.instagram.com/ellerslieinteriors/", "followers": "100K", "location": "Franklin (Nashville), TN", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Laura Lubin; artful renos, small-space living", "verified": "79K"}, {"tier": "4. RISING (<100K)", "handle": "@the_spacequeen", "url": "https://www.instagram.com/the_spacequeen/", "followers": "96K", "location": "Denver, CO", "sunbelt": "Y", "niche": "decor", "contact": "bailey@thespacequeen.com", "note": "Bailey Haniger; whimsidelic decor + sanctuary styling", "verified": "101K"}, {"tier": "4. RISING (<100K)", "handle": "@chitownhouse", "url": "https://www.instagram.com/chitownhouse/", "followers": "93K", "location": "Chicago, IL", "sunbelt": "N", "niche": "reno", "contact": "chitownhouse.com", "note": "Renovated 2000-built townhome; offers e-design", "verified": "96K"}, {"tier": "4. RISING (<100K)", "handle": "@thefisherhouse_", "url": "https://www.instagram.com/thefisherhouse_/", "followers": "92K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "DIY/decor", "contact": "", "note": "Karla; DIY Home with Purpose, thrifted projects", "verified": "95K"}, {"tier": "4. RISING (<100K)", "handle": "@cozy.happy.home", "url": "https://www.instagram.com/cozy.happy.home/", "followers": "90K", "location": "Jacksonville, FL", "sunbelt": "Y", "niche": "decor/styling", "contact": "jenna@cozyhappyhome.com", "note": "Jenna; vintage-find styling of a 1930s duplex. Best Jax archetype", "verified": "90K"}, {"tier": "4. RISING (<100K)", "handle": "@thefliplab", "url": "https://www.instagram.com/thefliplab/", "followers": "87K", "location": "US", "sunbelt": "N", "niche": "flip/investor", "contact": "", "note": "Ricky Morgan; flip ROI + reno upgrade advice", "verified": "9,122"}, {"tier": "4. RISING (<100K)", "handle": "@homesmithdesign", "url": "https://www.instagram.com/homesmithdesign/", "followers": "80K", "location": "Phoenix/Scottsdale, AZ", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Brittny Smith; custom builds + luxury remodels", "verified": "82K"}, {"tier": "4. RISING (<100K)", "handle": "@christingracehome", "url": "https://www.instagram.com/christingracehome/", "followers": "80K", "location": "Orlando, FL", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "Christin Jipson; cozy decor + seasonal styling", "verified": "88K"}, {"tier": "4. RISING (<100K)", "handle": "@the_chaunceyshow", "url": "https://www.instagram.com/the_chaunceyshow/", "followers": "80K", "location": "Dallas, TX", "sunbelt": "Y", "niche": "flip", "contact": "", "note": "Chauncey Pham; 7-fig flipper + interior designer", "verified": "80K"}, {"tier": "4. RISING (<100K)", "handle": "@ericrossinteriors", "url": "https://www.instagram.com/ericrossinteriors/", "followers": "75K", "location": "Nashville, TN", "sunbelt": "Y", "niche": "design/decor", "contact": "ericrossinteriors.com", "note": "Traditional Southern designer; author", "verified": "75K"}, {"tier": "4. RISING (<100K)", "handle": "@the.bunny.trails", "url": "https://www.instagram.com/the.bunny.trails/", "followers": "72K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "decor/DIY", "contact": "info@thebunnytrails.com", "note": "Home styling + gardening, romantic Southern lifestyle", "verified": "80K"}, {"tier": "4. RISING (<100K)", "handle": "@bensondwelling", "url": "https://www.instagram.com/bensondwelling/", "followers": "69K", "location": "US", "sunbelt": "N", "niche": "reno", "contact": "", "note": "Kristy & Paul Benson; husband-wife whole-home reno duo", "verified": "65K"}, {"tier": "4. RISING (<100K)", "handle": "@dogwoodinteriors", "url": "https://www.instagram.com/dogwoodinteriors/", "followers": "66K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "decor/design", "contact": "", "note": "Antiques + vintage for contemporary homes", "verified": "95K"}, {"tier": "4. RISING (<100K)", "handle": "@126interiors", "url": "https://www.instagram.com/126interiors/", "followers": "62K", "location": "Las Vegas, NV", "sunbelt": "Y", "niche": "design/decor", "contact": "", "note": "Rae Chadon; urban-modern-luxury designer + creator", "verified": "60K"}, {"tier": "4. RISING (<100K)", "handle": "@sarahstyledhome", "url": "https://www.instagram.com/sarahstyledhome/", "followers": "57K", "location": "Phoenix, AZ", "sunbelt": "Y", "niche": "design/decor", "contact": "", "note": "Sarah; full-service interior styling", "verified": "57K"}, {"tier": "4. RISING (<100K)", "handle": "@southerntoatea", "url": "https://www.instagram.com/southerntoatea/", "followers": "54K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "decor/design", "contact": "", "note": "European-inspired Southern home, entertaining", "verified": "59K"}, {"tier": "4. RISING (<100K)", "handle": "@emily.retro", "url": "https://www.instagram.com/emily.retro/", "followers": "53K", "location": "West Michigan", "sunbelt": "N", "niche": "DIY/decor", "contact": "emilyretro.com", "note": "Emily Alexander; thrifted/vintage decor + DIY", "verified": "53K"}, {"tier": "4. RISING (<100K)", "handle": "@dianaelizabeth_", "url": "https://www.instagram.com/dianaelizabeth_/", "followers": "53K", "location": "Phoenix, AZ", "sunbelt": "Y", "niche": "decor/DIY", "contact": "dianaelizabeth.com", "note": "Maximalist; renovating a 1952 brick ranch", "verified": "54K"}, {"tier": "4. RISING (<100K)", "handle": "@anisainside", "url": "https://www.instagram.com/anisainside/", "followers": "50K", "location": "Austin, TX", "sunbelt": "Y", "niche": "decor/DIY", "contact": "hello@anisainside.com", "note": "Color is my love language; decor + DIY", "verified": "54K"}, {"tier": "4. RISING (<100K)", "handle": "@clairezinneckerdesign", "url": "https://www.instagram.com/clairezinneckerdesign/", "followers": "mid (verify)", "location": "Austin, TX", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Claire Zinnecker; layered, soulful, timeless homes", "verified": "5,828"}, {"tier": "4. RISING (<100K)", "handle": "@averycoxdesign", "url": "https://www.instagram.com/averycoxdesign/", "followers": "mid (verify)", "location": "Austin, TX", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Avery Cox; color-forward architectural homes", "verified": "16K"}, {"tier": "4. RISING (<100K)", "handle": "@joyfullygreen", "url": "https://www.instagram.com/joyfullygreen/", "followers": "mid (verify)", "location": "Houston, TX", "sunbelt": "Y", "niche": "DIY/decor", "contact": "joyxgreen@gmail.com", "note": "Joy Green; documents 90s Houston reno, approachable", "verified": "279K"}, {"tier": "4. RISING (<100K)", "handle": "@kerrielkelly", "url": "https://www.instagram.com/kerrielkelly/", "followers": "mid (verify)", "location": "Sacramento, CA", "sunbelt": "Y", "niche": "design/decor", "contact": "kerriekelly.com", "note": "Award-winning Sac designer, author, Design Lab founder", "verified": "17K"}, {"tier": "4. RISING (<100K)", "handle": "@kaitlinathome", "url": "https://www.instagram.com/kaitlinathome/", "followers": "48K", "location": "Denver, CO", "sunbelt": "Y", "niche": "decor/DIY", "contact": "home.kaitlin@gmail.com", "note": "Secondhand/thrifted decor styling, budget content", "verified": "49K"}, {"tier": "4. RISING (<100K)", "handle": "@lyndenlane", "url": "https://www.instagram.com/lyndenlane/", "followers": "48K", "location": "San Antonio, TX", "sunbelt": "Y", "niche": "decor", "contact": "", "note": "The Lynden Lane Co.; home decor brand/creator", "verified": "49K"}, {"tier": "4. RISING (<100K)", "handle": "@barbara_borges_design", "url": "https://www.instagram.com/barbara_borges_design/", "followers": "46K", "location": "Orlando, FL", "sunbelt": "Y", "niche": "reno/design", "contact": "+1 321-948-1336", "note": "Orlando designer; renos incl. vacation homes", "verified": "49K"}, {"tier": "4. RISING (<100K)", "handle": "@austinflipsters", "url": "https://www.instagram.com/austinflipsters/", "followers": "45K", "location": "Austin, TX", "sunbelt": "Y", "niche": "flip/reno", "contact": "austinflipsters.com", "note": "Lincoln Edwards & Lauren Ahrens; 100+ flips, shares deal economics", "verified": "45K"}, {"tier": "4. RISING (<100K)", "handle": "@kaitlynwolfe__", "url": "https://www.instagram.com/kaitlynwolfe__/", "followers": "44K", "location": "Phoenix/Scottsdale, AZ", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Organic modern design studio", "verified": "45K"}, {"tier": "4. RISING (<100K)", "handle": "@nicolewhitedesignsinteriors", "url": "https://www.instagram.com/nicolewhitedesignsinteriors/", "followers": "44K", "location": "Fort Lauderdale, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "info@nwdinteriors.com", "note": "South FL luxury designer; House Beautiful/HGTV", "verified": "44K"}, {"tier": "4. RISING (<100K)", "handle": "@projectwhim", "url": "https://www.instagram.com/projectwhim/", "followers": "43K", "location": "Denver, CO", "sunbelt": "Y", "niche": "DIY/decor", "contact": "ProjectWhim@gmail.com", "note": "Amanda Johnston; fast-growing Denver DIY/decor", "verified": "43K"}, {"tier": "4. RISING (<100K)", "handle": "@taralenneydesign", "url": "https://www.instagram.com/taralenneydesign/", "followers": "43K", "location": "Dallas, TX", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Full-service design, renos, new builds", "verified": "45K"}, {"tier": "4. RISING (<100K)", "handle": "@laurenleonardinteriors", "url": "https://www.instagram.com/laurenleonardinteriors/", "followers": "mid (verify)", "location": "Atlantic Beach (Jax), FL", "sunbelt": "Y", "niche": "reno/design", "contact": "ll@laurenleonardinteriors.com", "note": "New-construction + reno studio, Jax + St. Augustine", "verified": "11K"}, {"tier": "4. RISING (<100K)", "handle": "@tarareganinteriors", "url": "https://www.instagram.com/tarareganinteriors/", "followers": "mid (verify)", "location": "St. Augustine, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "tara@tarareganinteriors.com", "note": "Award-winning, 20+ yrs, NE Florida", "verified": "468"}, {"tier": "4. RISING (<100K)", "handle": "@dadmakesmagic", "url": "https://www.instagram.com/dadmakesmagic/", "followers": "mid (verify)", "location": "Charlotte, NC", "sunbelt": "Y", "niche": "DIY/reno", "contact": "dadmakesmagic@gmail.com", "note": "Alessandro Pontes; family DIYer, Home Depot collabs", "verified": "229K"}, {"tier": "4. RISING (<100K)", "handle": "@audreyscheckdesign", "url": "https://www.instagram.com/audreyscheckdesign/", "followers": "34K", "location": "Austin, TX", "sunbelt": "Y", "niche": "reno", "contact": "hello@audreyscheckdesign.com", "note": "Corporate-to-designer; Southern Living/BHG features", "verified": "34K"}, {"tier": "4. RISING (<100K)", "handle": "@girliewithadrill", "url": "https://www.instagram.com/girliewithadrill/", "followers": "30K", "location": "New York, NY", "sunbelt": "N", "niche": "DIY", "contact": "", "note": "Renter-safe DIY + budget apartment hacks", "verified": "30K"}, {"tier": "4. RISING (<100K)", "handle": "@lauren__fried", "url": "https://www.instagram.com/lauren__fried/", "followers": "mid (verify)", "location": "Temecula, CA", "sunbelt": "Y", "niche": "design", "contact": "revivalinteriors.co", "note": "Revival Interiors lead; organic-Mediterranean", "verified": "772"}, {"tier": "4. RISING (<100K)", "handle": "@dkorinteriors", "url": "https://www.instagram.com/dkorinteriors/", "followers": "28K", "location": "North Miami Beach, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "Info@dkorinteriors.com", "note": "DKOR Interiors; South FL residential reno/design firm", "verified": "28K"}, {"tier": "4. RISING (<100K)", "handle": "@tarlyarber", "url": "https://www.instagram.com/tarlyarber/", "followers": "27K", "location": "Seattle, WA", "sunbelt": "N", "niche": "flip", "contact": "tarlyarber.com", "note": "Tarl Yarber; 650+ flips, BiggerPockets contributor", "verified": "27K"}, {"tier": "4. RISING (<100K)", "handle": "@livingwithloloaz", "url": "https://www.instagram.com/livingwithloloaz/", "followers": "25K", "location": "Scottsdale, AZ", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Lauren Lerner; luxury design-build firm", "verified": "25K"}, {"tier": "4. RISING (<100K)", "handle": "@phoenix_home_remodeling", "url": "https://www.instagram.com/phoenix_home_remodeling/", "followers": "25K", "location": "Phoenix, AZ", "sunbelt": "Y", "niche": "reno", "contact": "", "note": "Luxury remodel transforms; in-house designers + 3D", "verified": "25K"}, {"tier": "4. RISING (<100K)", "handle": "@swayhome.renovations", "url": "https://www.instagram.com/swayhome.renovations/", "followers": "25K", "location": "Denver, CO", "sunbelt": "Y", "niche": "DIY/reno", "contact": "", "note": "Scott + Layn; hands-on 1970s Denver home reno", "verified": "73K"}, {"tier": "4. RISING (<100K)", "handle": "@ashleydelapp", "url": "https://www.instagram.com/ashleydelapp/", "followers": "24K", "location": "Charlotte, NC", "sunbelt": "Y", "niche": "design/decor", "contact": "", "note": "Architect-turned-designer; bold color, eclectic", "verified": "24K"}, {"tier": "4. RISING (<100K)", "handle": "@studioten25", "url": "https://www.instagram.com/studioten25/", "followers": "22K", "location": "Dallas, TX", "sunbelt": "Y", "niche": "design/decor", "contact": "", "note": "Abbe Stanton Fenimore; bold colorful interiors", "verified": "22K"}, {"tier": "4. RISING (<100K)", "handle": "@carolinestevensoninteriors", "url": "https://www.instagram.com/carolinestevensoninteriors/", "followers": "22K", "location": "Raleigh-Durham, NC", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Traditional, Southern, colorful design", "verified": "24K"}, {"tier": "4. RISING (<100K)", "handle": "@transformrealestate", "url": "https://www.instagram.com/transformrealestate/", "followers": "21K", "location": "SF Bay Area, CA", "sunbelt": "N", "niche": "flip/investor", "contact": "transformrealestate.com", "note": "Elisa Covington; full-time flipper turned coach + author", "verified": "21K"}, {"tier": "4. RISING (<100K)", "handle": "@yasuhomeco", "url": "https://www.instagram.com/yasuhomeco/", "followers": "20K", "location": "Raleigh, NC", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Modern, collected interior design", "verified": "20K"}, {"tier": "4. RISING (<100K)", "handle": "@pipergraydesigns", "url": "https://www.instagram.com/pipergraydesigns/", "followers": "20K", "location": "Denver, CO", "sunbelt": "Y", "niche": "design", "contact": "pipergraydesigns.com", "note": "Piper Gray; designer + mom of 4, functional spaces", "verified": "19K"}, {"tier": "4. RISING (<100K)", "handle": "@27southdesign", "url": "https://www.instagram.com/27southdesign/", "followers": "verify", "location": "Jacksonville Beach, FL", "sunbelt": "Y", "niche": "flip/reno/design", "contact": "27southdesign.com", "note": "John & Whitney Spinks; HGTV Florida Flippers, design-build", "verified": "?"}, {"tier": "4. RISING (<100K)", "handle": "@amandabarkleydesignco", "url": "https://www.instagram.com/amandabarkleydesignco/", "followers": "19K", "location": "San Antonio, TX", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Mandy Barkley; interior design studio", "verified": "23K"}, {"tier": "4. RISING (<100K)", "handle": "@dmarzoa", "url": "https://www.instagram.com/dmarzoa/", "followers": "17K", "location": "Miami, FL", "sunbelt": "Y", "niche": "DIY", "contact": "themarzoafamily.com", "note": "Dennis Marzoa; budget DIY Home Improvement Guy", "verified": "17K"}, {"tier": "4. RISING (<100K)", "handle": "@blissfuldesignstudio", "url": "https://www.instagram.com/blissfuldesignstudio/", "followers": "verify", "location": "Arizona", "sunbelt": "Y", "niche": "flip/investor", "contact": "", "note": "Brittany Krupnik; investor + stager, 250+ homes designed", "verified": "?"}, {"tier": "4. RISING (<100K)", "handle": "@beyondinteriordesign", "url": "https://www.instagram.com/beyondinteriordesign/", "followers": "13K", "location": "Dallas, TX", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Award-winning modern luxury firm", "verified": "13K"}, {"tier": "4. RISING (<100K)", "handle": "@lisagilmoredesign", "url": "https://www.instagram.com/lisagilmoredesign/", "followers": "12K", "location": "St. Petersburg, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "studio@lisagilmoredesign.com", "note": "Liveable Glamour; AD-recognized SW FL designer", "verified": "12K"}, {"tier": "4. RISING (<100K)", "handle": "@investwitherin", "url": "https://www.instagram.com/investwitherin/", "followers": "12K", "location": "Sacramento/Rocklin, CA", "sunbelt": "Y", "niche": "flip/reno", "contact": "erinswanberg.com", "note": "Sac + Placer flipper + realtor, before/after flips", "verified": "?"}, {"tier": "4. RISING (<100K)", "handle": "@brittanylyonsinteriors_", "url": "https://www.instagram.com/brittanylyonsinteriors_/", "followers": "10K", "location": "Dallas, TX", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Brittany Lyons; Dallas design + renovations", "verified": "3,130"}, {"tier": "4. RISING (<100K)", "handle": "@diybirmingham", "url": "https://www.instagram.com/diybirmingham/", "followers": "10K", "location": "Birmingham, AL", "sunbelt": "Y", "niche": "DIY/reno", "contact": "", "note": "Birmingham DIY home content", "verified": "9,803"}, {"tier": "4. RISING (<100K)", "handle": "@whitneyspinks", "url": "https://www.instagram.com/whitneyspinks/", "followers": "verify", "location": "Jacksonville, FL", "sunbelt": "Y", "niche": "flip/reno", "contact": "", "note": "HGTV host personal acct; Jax realtor + 27 South owner", "verified": "1,972"}, {"tier": "4. RISING (<100K)", "handle": "@thatflippingcouple", "url": "https://www.instagram.com/thatflippingcouple/", "followers": "verify", "location": "US", "sunbelt": "N", "niche": "flip", "contact": "", "note": "Jess & Jerryll; husband-wife flipping duo", "verified": "2,280"}, {"tier": "4. RISING (<100K)", "handle": "@flippinglosangeles", "url": "https://www.instagram.com/flippinglosangeles/", "followers": "verify", "location": "Los Angeles, CA", "sunbelt": "N", "niche": "flip", "contact": "", "note": "LA house-flipping account documenting projects", "verified": "18K"}, {"tier": "4. RISING (<100K)", "handle": "@flippingseattle", "url": "https://www.instagram.com/flippingseattle/", "followers": "verify", "location": "Seattle, WA", "sunbelt": "N", "niche": "flip", "contact": "", "note": "20+ yrs flipping; educational content", "verified": "23K"}, {"tier": "4. RISING (<100K)", "handle": "@jakeleicht", "url": "https://www.instagram.com/jakeleicht/", "followers": "verify", "location": "Temecula, CA", "sunbelt": "Y", "niche": "flip/investor", "contact": "", "note": "Flipped 800+ houses; flipping mentorship", "verified": "653K"}, {"tier": "4. RISING (<100K)", "handle": "@revisioncharlotte", "url": "https://www.instagram.com/revisioncharlotte/", "followers": "verify", "location": "Charlotte, NC", "sunbelt": "Y", "niche": "reno/design", "contact": "", "note": "Luxury custom design-build remodeler", "verified": "4,978"}, {"tier": "4. RISING (<100K)", "handle": "@fixnflipfanatic", "url": "https://www.instagram.com/fixnflipfanatic/", "followers": "verify", "location": "Metro Atlanta, GA", "sunbelt": "Y", "niche": "flip/reno", "contact": "", "note": "Stephanie Burt; buys problem houses, flip + reno", "verified": "305"}, {"tier": "4. RISING (<100K)", "handle": "@decoratingcents", "url": "https://www.instagram.com/decoratingcents/", "followers": "verify", "location": "Atlanta, GA", "sunbelt": "Y", "niche": "decor/DIY", "contact": "", "note": "Atlanta decor + DIY blogger, fresh modern style", "verified": "5,244"}, {"tier": "4. RISING (<100K)", "handle": "@flippinggorgeous", "url": "https://www.instagram.com/flippinggorgeous/", "followers": "verify", "location": "US", "sunbelt": "N", "niche": "flip/DIY", "contact": "", "note": "Lena Taylor; realtor-turned-DIYer reno projects", "verified": "18"}, {"tier": "4. RISING (<100K)", "handle": "@dom_flips_nola", "url": "https://www.instagram.com/dom_flips_nola/", "followers": "7K", "location": "New Orleans, LA", "sunbelt": "N", "niche": "flip/investor", "contact": "", "note": "Dominique Gunderson; young female flipper/investor", "verified": "8,080"}, {"tier": "4. RISING (<100K)", "handle": "@dorothyburkeinteriors", "url": "https://www.instagram.com/dorothyburkeinteriors/", "followers": "6K", "location": "Atlanta, GA", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Atlanta interior designer, up-and-coming", "verified": "6,077"}, {"tier": "4. RISING (<100K)", "handle": "@welcomehomestyling", "url": "https://www.instagram.com/welcomehomestyling/", "followers": "5K", "location": "Ponte Vedra (Jax), FL", "sunbelt": "Y", "niche": "design/reno/decor", "contact": "welcomehomestyling.com", "note": "Jessica Woodward; serves Nocatee/St. Johns/Jax Beach", "verified": "5,007"}, {"tier": "4. RISING (<100K)", "handle": "@julieterrelldesign", "url": "https://www.instagram.com/julieterrelldesign/", "followers": "5K", "location": "Birmingham, AL", "sunbelt": "Y", "niche": "design", "contact": "", "note": "Full-service layered, livable, timeless interiors", "verified": "5,175"}, {"tier": "4. RISING (<100K)", "handle": "@hammerandsaw_", "url": "https://www.instagram.com/hammerandsaw_/", "followers": "verify", "location": "Birmingham, AL", "sunbelt": "Y", "niche": "reno", "contact": "", "note": "Birmingham remodeler; additions, remodels", "verified": "321"}, {"tier": "4. RISING (<100K)", "handle": "@mumford_designs", "url": "https://www.instagram.com/mumford_designs/", "followers": "verify", "location": "Menifee (Inland Empire), CA", "sunbelt": "Y", "niche": "design/reno", "contact": "mumforddesigns.com", "note": "IE design boutique; staging through full renos", "verified": "998"}, {"tier": "4. RISING (<100K)", "handle": "@rwarddesign", "url": "https://www.instagram.com/rwarddesign/", "followers": "4.7K", "location": "Sacramento, CA", "sunbelt": "Y", "niche": "design/decor", "contact": "rebeccawarddesign.com", "note": "Designing Everyday Luxury; daily reels, Greater Sac", "verified": "4,723"}, {"tier": "4. RISING (<100K)", "handle": "@birminghamdesignhouse", "url": "https://www.instagram.com/birminghamdesignhouse/", "followers": "4K", "location": "Birmingham, AL", "sunbelt": "Y", "niche": "design", "contact": "birminghamdesignhouse.com", "note": "Full-service interior design firm", "verified": "3,953"}, {"tier": "4. RISING (<100K)", "handle": "@nicolelynninteriors", "url": "https://www.instagram.com/nicolelynninteriors/", "followers": "3K", "location": "St. Petersburg, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "nicolelynninteriors.com", "note": "Boutique modern-coastal; new construction + full svc", "verified": "3,121"}, {"tier": "4. RISING (<100K)", "handle": "@baileykatherineinteriors", "url": "https://www.instagram.com/baileykatherineinteriors/", "followers": "3K", "location": "Denver/Lakewood, CO", "sunbelt": "Y", "niche": "design", "contact": "baileykatherineinteriors.com", "note": "Sustainable/intuitive design, plant-forward", "verified": "2,798"}, {"tier": "4. RISING (<100K)", "handle": "@casariadesign", "url": "https://www.instagram.com/casariadesign/", "followers": "2K", "location": "Tampa, FL", "sunbelt": "Y", "niche": "design", "contact": "casariadesign.com", "note": "Stephanie Acevedo; STR design + staging, A&E feature", "verified": "2,204"}, {"tier": "4. RISING (<100K)", "handle": "@lauren.murphy.design", "url": "https://www.instagram.com/lauren.murphy.design/", "followers": "2K", "location": "Birmingham, AL", "sunbelt": "Y", "niche": "design/reno", "contact": "", "note": "Kitchen + bath remodels; Birmingham Home & Garden", "verified": "3,309"}, {"tier": "4. RISING (<100K)", "handle": "@brickell_interiors", "url": "https://www.instagram.com/brickell_interiors/", "followers": "1K", "location": "Brickell, Miami, FL", "sunbelt": "Y", "niche": "design/reno", "contact": "brickellinteriors.com", "note": "Cynthia McFarlane; wellness-driven high-rise redesigns", "verified": "1,054"}, {"tier": "4. RISING (<100K)", "handle": "@roseremodel", "url": "https://www.instagram.com/roseremodel/", "followers": "800", "location": "Elk Grove (Sac), CA", "sunbelt": "Y", "niche": "reno", "contact": "roseremodel.com", "note": "Family remodeler; Sacramento before/afters", "verified": "808"}]</script>
+<script>
+(function() {
+  "use strict";
+
+  var dataEl = document.getElementById('influencer-data');
+  var DATA;
+  try {
+    DATA = JSON.parse(dataEl.textContent);
+  } catch(e) {
+    document.getElementById('cards').innerHTML = '<div class="empty">Error loading data: ' + e.message + '</div>';
+    return;
+  }
+
+  var tierClass = {
+    "1. MEGA (1M+)": "t1",
+    "2. LARGE (300K-1M)": "t2",
+    "3. MID (100K-300K)": "t3",
+    "4. RISING (<100K)": "t4"
+  };
+  var tierShort = {
+    "1. MEGA (1M+)": "MEGA",
+    "2. LARGE (300K-1M)": "LARGE",
+    "3. MID (100K-300K)": "MID",
+    "4. RISING (<100K)": "RISING"
+  };
+
+  var activeTier = "all";
+  var searchTerm = "";
+  var sunbeltOnly = false;
+  var sortAlpha = false;
+
+  var cardsEl = document.getElementById('cards');
+  var countEl = document.getElementById('result-count');
+  var totalEl = document.getElementById('total-count');
+  totalEl.textContent = DATA.length;
+
+  function parseFollowers(s) {
+    if (!s) return 0;
+    s = String(s).replace(/[,"]/g, '').trim();
+    var m = s.match(/([\d.]+)\s*(K|M)?/i);
+    if (!m) return 0;
+    var n = parseFloat(m[1]);
+    var unit = (m[2] || '').toUpperCase();
+    if (unit === 'M') n *= 1e6;
+    else if (unit === 'K') n *= 1e3;
+    return n;
+  }
+
+  function escapeHtml(s) {
+    if (!s) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function render() {
+    var filtered = [];
+    for (var i = 0; i < DATA.length; i++) {
+      var item = DATA[i];
+      if (activeTier !== "all" && item.tier !== activeTier) continue;
+      if (sunbeltOnly && item.sunbelt !== "Y") continue;
+      if (searchTerm) {
+        var q = searchTerm.toLowerCase();
+        var hay = (item.handle + ' ' + item.location + ' ' + item.niche + ' ' + item.note + ' ' + item.contact).toLowerCase();
+        if (hay.indexOf(q) === -1) continue;
+      }
+      filtered.push(item);
+    }
+
+    var tierOrder = ["1. MEGA (1M+)", "2. LARGE (300K-1M)", "3. MID (100K-300K)", "4. RISING (<100K)"];
+
+    if (sortAlpha) {
+      filtered.sort(function(a, b) { return a.handle.localeCompare(b.handle); });
+    } else {
+      filtered.sort(function(a, b) {
+        var ta = tierOrder.indexOf(a.tier);
+        var tb = tierOrder.indexOf(b.tier);
+        if (ta !== tb) return ta - tb;
+        return parseFollowers(b.followers) - parseFollowers(a.followers);
+      });
+    }
+
+    countEl.textContent = filtered.length + ' shown';
+
+    if (filtered.length === 0) {
+      cardsEl.innerHTML = '<div class="empty">No influencers match your filters.</div>';
+      return;
+    }
+
+    var html = '';
+    var lastTier = '';
+    for (var j = 0; j < filtered.length; j++) {
+      var item = filtered[j];
+      if (!sortAlpha && item.tier !== lastTier) {
+        html += '<div class="tier-label">' + (tierShort[item.tier] || item.tier) + '</div>';
+        lastTier = item.tier;
+      }
+      var tc = tierClass[item.tier] || 't4';
+      var ts = tierShort[item.tier] || item.tier;
+      var sb = item.sunbelt === 'Y' ? '<span class="sunbelt-tag">&#127774; Sunbelt</span>' : '';
+      var contactLine = item.contact ? '<div style="font-size:11px;color:var(--text-dim);margin-top:3px;">&#128231; ' + escapeHtml(item.contact) + '</div>' : '';
+      var verifiedLine = item.verified ? '<span class="meta-item">&#10003; ' + escapeHtml(item.verified) + '</span>' : '';
+      html += '<a class="card" href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener">' +
+        '<div class="card-top"><span class="handle">' + escapeHtml(item.handle) + '</span>' +
+        '<span class="tier-badge ' + tc + '">' + ts + '</span></div>' +
+        '<div class="card-meta">' +
+        '<span class="meta-item">&#128101; ' + escapeHtml(item.followers) + '</span>' +
+        '<span class="meta-item">&#128205; ' + escapeHtml(item.location) + '</span>' +
+        verifiedLine + sb +
+        '</div>';
+      if (item.niche) html += '<span class="niche-tag">' + escapeHtml(item.niche) + '</span>';
+      if (item.note) html += '<div class="note">' + escapeHtml(item.note) + '</div>';
+      html += contactLine + '</a>';
+    }
+    cardsEl.innerHTML = html;
+  }
+
+  document.getElementById('search').addEventListener('input', function(e) {
+    searchTerm = e.target.value.trim();
+    render();
+  });
+
+  var chips = document.querySelectorAll('.chip');
+  for (var c = 0; c < chips.length; c++) {
+    chips[c].addEventListener('click', function() {
+      for (var d = 0; d < chips.length; d++) chips[d].classList.remove('active');
+      this.classList.add('active');
+      activeTier = this.getAttribute('data-tier');
+      render();
+    });
+  }
+
+  document.getElementById('sunbelt-only').addEventListener('change', function(e) {
+    sunbeltOnly = e.target.checked;
+    render();
+  });
+  document.getElementById('sort-alpha').addEventListener('change', function(e) {
+    sortAlpha = e.target.checked;
+    render();
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
