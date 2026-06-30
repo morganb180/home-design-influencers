@@ -218,7 +218,11 @@
       var estLine = (item.verified && item.verified !== item.followers)
         ? '<span class="meta-item"><span class="label">est</span> <span class="val mono">' + escapeHtml(item.verified) + '</span></span>' : '';
       var contactLine = item.contact ? '<div class="contact">' + escapeHtml(item.contact) + '</div>' : '';
-      html += '<a class="card" href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener">' +
+      var slug = item.handle.replace(/^@/, '');
+      var init = escapeHtml((slug.charAt(0) || '?').toUpperCase());
+      var avatar = '<span class="avatar"><span class="avph">' + init + '</span>' +
+        '<img class="av" loading="lazy" src="images/' + escapeHtml(slug) + '.jpg" alt="' + escapeHtml(item.handle) + '" onerror="this.remove()"></span>';
+      var body = '<div class="card-body">' +
         '<div class="card-top"><span class="handle">' + escapeHtml(item.handle) + '</span>' +
         '<span class="tier-badge ' + tc + '">' + ts + '</span></div>' +
         '<div class="card-meta">' +
@@ -226,9 +230,10 @@
         '<span class="meta-item">' + escapeHtml(item.location) + '</span>' +
         estLine + sb +
         '</div>';
-      if (item.niche) html += '<span class="niche-tag">' + escapeHtml(item.niche) + '</span>';
-      if (item.note) html += '<div class="note">' + escapeHtml(item.note) + '</div>';
-      html += contactLine + '</a>';
+      if (item.niche) body += '<span class="niche-tag">' + escapeHtml(item.niche) + '</span>';
+      if (item.note) body += '<div class="note">' + escapeHtml(item.note) + '</div>';
+      body += contactLine + '</div>';
+      html += '<a class="card" href="' + escapeHtml(item.url) + '" target="_blank" rel="noopener">' + avatar + body + '</a>';
     }
     cardsEl.innerHTML = html;
   }
