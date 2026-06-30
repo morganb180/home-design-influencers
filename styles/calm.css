@@ -359,11 +359,44 @@ main {
   text-decoration: none;
   color: inherit;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
   transition: background 0.15s, border-color 0.15s;
 }
 .card:hover { background: var(--od-bg); border-color: #cbd5e1; }
 .card:focus-visible { outline: 2px solid var(--od-blue); outline-offset: 2px; }
+
+.card-body {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Avatar (layered: initials placeholder under the photo; photo removes itself
+   on load error to reveal the placeholder) */
+.avatar { position: relative; width: 56px; height: 56px; flex: none; }
+.avph {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: var(--od-blue50);
+  color: var(--od-blue);
+  font-weight: 600;
+  font-size: 20px;
+  box-shadow: 0 0 0 1px var(--od-line);
+}
+.av {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  background: var(--od-blue50);
+  box-shadow: 0 0 0 1px var(--od-line);
+  display: block;
+}
+.card:hover .av, .card:hover .avph { box-shadow: 0 0 0 3px var(--od-blue50); }
 
 .card-top {
   display: flex;
