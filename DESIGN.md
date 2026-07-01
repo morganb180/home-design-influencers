@@ -23,5 +23,11 @@ shared one.
 ## Editing the data
 The roster lives in the `<script type="application/json" id="influencer-data">` block in
 `index.html`. Each record: `tier, handle, url, followers, location, sunbelt (Y/N), niche,
-contact, note, verified`. Update `ROSTER_DATE` in the page script when you refresh the list;
-it drives the "Updated" label and the freshness pill (stale after 60 days).
+contact, note, verified, category`. Update `ROSTER_DATE` in the page script when you refresh
+the list; it drives the "Updated" label and the freshness pill (stale after 60 days).
+
+`category` powers the second filter row and buckets the roster by creator type: `design`
+(the original home/reno/decor/DIY roster), `finance`, `curb-appeal`, `organizing`, `mom`.
+The adjacency categories were added Jul 1 2026; the research that produced them (per-category
+source files, verified counts, the co-marketing staging list that was intentionally left out)
+lives in `home-design-influencer-list/adjacency-research-jun30/` in the source project.
