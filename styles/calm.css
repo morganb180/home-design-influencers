@@ -315,6 +315,7 @@ main {
 .dot-amber { background: var(--od-amber); }
 .dot-mist  { background: var(--od-mist); }
 .dot-red   { background: var(--od-red); }
+.dot-violet{ background: #8a7fa8; }
 
 /* --- Result count bar ------------------------------------------------------ */
 .count-bar {
