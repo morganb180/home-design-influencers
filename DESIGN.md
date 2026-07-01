@@ -27,7 +27,8 @@ contact, note, verified, category`. Update `ROSTER_DATE` in the page script when
 the list; it drives the "Updated" label and the freshness pill (stale after 60 days).
 
 `category` powers the second filter row and buckets the roster by creator type: `design`
-(home/reno/decor/DIY), `flip` (flip/investor creators), `finance`, `curb-appeal`, `organizing`, `mom`.
+(home/reno/decor/DIY), `flip` (flip/investor creators), `finance`, `curb-appeal`, `organizing`, `mom`,
+`agent` (real-estate agents/brokers/teams; a B2B agent-outreach list, not consumer awareness).
 The adjacency categories were added Jul 1 2026; the research that produced them (per-category
 source files, verified counts, the co-marketing staging list that was intentionally left out)
 lives in `home-design-influencer-list/adjacency-research-jun30/` in the source project.
